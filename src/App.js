@@ -1,25 +1,86 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+
+
+
+
+   
+import React from 'react'
+import SingleFlags from './components/SingleFlags';
+import './App.css';
+import { useEffect,useState } from 'react'
+const App = () => {
+  const [flags,setFlags]=useState([]);
+  // const [filter,setFilter]=useState([]);
+  const [loading,setLoading]=useState(false)
+  const [name,setName]=useState("")
+  const flagDisplay=async()=>{
+    setLoading(true)
+    const url="https://restcountries.com/v3.1/all"
+    try {
+       
+       
+        const res= await fetch(url)
+        const  data= await res.json()
+        console.log(data,"data");
+        setFlags(data)  
+        // console.log(flags,"flagss")
+        
+    } catch (error) {
+      console.log(error); 
+      
+    } 
+   
+setLoading(false) 
+  }
+
+  useEffect(()=>{
+    flagDisplay()
+},[])
+
+//  useEffect(()=>{
+//   const result=flags.filter((item)=>item.common.name.toLowerCase().includes(name.toLowerCase()))
+  
+//   console.log(result,"result");
+//  },[])
+const handleChange=(e)=>{
+  setName(e.target.value)
+  const result=flags.filter((item)=>item.name.common.toLowerCase().includes(name.toLowerCase()))
+  if(result===undefined) return
+   setFlags(result)
+}
+  
+
+
+
+//   console.log(flags,"flags");
+  if(loading) return <h3>Loading....</h3>
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='flags-container'>
+      <input type='text' value={name} onChange={handleChange}></input>
+        {
+            flags.map((item)=>{
+                return (
+                    <SingleFlags key={item.ccn3} {...item}/>
+                )
+            })
+        }
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+
+
