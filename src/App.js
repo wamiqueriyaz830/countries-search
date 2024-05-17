@@ -6,7 +6,7 @@
    
 import React from 'react'
 import SingleFlags from './components/SingleFlags';
-import './App.css';
+import "./App.css"
 import { useEffect,useState } from 'react'
 const App = () => {
   const [flags,setFlags]=useState([]);
@@ -23,8 +23,8 @@ const App = () => {
         const  data= await res.json()
         console.log(data,"data");
         setFlags(data)  
-        // console.log(flags,"flagss")
-        
+       
+         
     } catch (error) {
       console.log(error); 
       
@@ -44,11 +44,13 @@ setLoading(false)
 //  },[])
 const handleChange=(e)=>{
   setName(e.target.value)
-  const result=flags.filter((item)=>item.name.common.toLowerCase().includes(name.toLowerCase()))
-  if(result===undefined) return
-   setFlags(result)
+  
+  
+  
 }
   
+const result=flags.filter((item)=>item.name.common.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
+
 
 
 
@@ -58,7 +60,7 @@ const handleChange=(e)=>{
     <div className='flags-container'>
       <input type='text' value={name} onChange={handleChange}></input>
         {
-            flags.map((item)=>{
+            result.map((item)=>{
                 return (
                     <SingleFlags key={item.ccn3} {...item}/>
                 )
